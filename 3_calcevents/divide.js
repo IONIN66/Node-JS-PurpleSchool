@@ -1,3 +1,3 @@
 module.exports = function divide(first, second) {
-  console.log(first / second);
+  return first / second;
 };

@@ -5,12 +5,26 @@ const multiply = require("./multiply.js");
 const subtract = require("./subtract.js");
 const divide = require("./divide.js");
 
-const myEvent = require("events");
-const myEmitter = new myEvent();
+const EventEmitter = require("node:events");
+const myEmitter = new EventEmitter();
 
-myEmitter.addListener("add", add);
-myEmitter.addListener("multiply", multiply);
-myEmitter.addListener("subtract", subtract);
-myEmitter.addListener("divide", divide);
+myEmitter.on("result", (value) => {
+  console.log(value);
+});
 
-myEmitter.emit(operation, first, second);
+myEmitter.on("add", (a, b) => {
+  myEmitter.emit("result", add(a, b));
+});
+myEmitter.on("multiply", (a, b) => {
+  myEmitter.emit("result", multiply(a, b));
+});
+myEmitter.on("subtract", (a, b) => {
+  myEmitter.emit("result", subtract(a, b));
+});
+myEmitter.on("divide", (a, b) => {
+  myEmitter.emit("result", divide(a, b));
+});
+
+if (!myEmitter.emit(operation, first, second)) {
+  console.log("Неизвестная операция");
+}
