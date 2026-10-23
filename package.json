@@ -1,0 +1,23 @@
+{
+  "name": "node",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app-worker.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/IONIN66/Node-JS-PurpleSchool.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/IONIN66/Node-JS-PurpleSchool/issues"
+  },
+  "homepage": "https://github.com/IONIN66/Node-JS-PurpleSchool#readme",
+  "devDependencies": {
+    "eslint": "^8.57.1"
+  }
+}
