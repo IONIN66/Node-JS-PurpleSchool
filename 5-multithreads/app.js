@@ -22,7 +22,9 @@ const workerFunction = (array) => {
   return new Promise((resolve, reject) => {
     let hasResult = false;
 
-    const worker = new Worker("./worker.js", { workerData: { array } });
+    const worker = new Worker(path.join(__dirname, "worker.js"), {
+      workerData: { array },
+    });
 
     worker.on("message", (msg) => {
       hasResult = true;
@@ -53,7 +55,7 @@ const forkFunction = (array) => {
   return new Promise((resolve, reject) => {
     let hasResult = false;
 
-    const child = fork("./fork.js");
+    const child = fork(path.join(__dirname, "fork.js"));
 
     child.on("message", (result) => {
       child.disconnect();
@@ -185,6 +187,26 @@ const main = async () => {
   console.log(resultExec.reduce((acc, execResult) => acc + execResult, 0));
   performance.mark("end exec");
   performance.measure("exec", "start exec", "end exec");
+
+  const durations = {
+    for: performance.getEntriesByName("for")[0].duration,
+    worker: performance.getEntriesByName("worker")[0].duration,
+    fork: performance.getEntriesByName("fork")[0].duration,
+    spawn: performance.getEntriesByName("spawn")[0].duration,
+    exec: performance.getEntriesByName("exec")[0].duration,
+  };
+
+  const [fastestName, fastestDuration] = Object.entries(durations).reduce(
+    (fastest, current) => (current[1] < fastest[1] ? current : fastest),
+  );
+
+  console.log(
+    `Самый быстрый вариант: ${fastestName} (${fastestDuration.toFixed(2)} мс)`,
+  );
+  console.log(
+    "Линейный цикл обычно быстрее на таком объёме данных, " +
+      "потому что запуск потоков/процессов и передача данных создают накладные расходы.",
+  );
 };
 
 performance.mark("start for");
