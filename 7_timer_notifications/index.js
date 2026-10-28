@@ -31,14 +31,21 @@ if (
   process.exitCode = 1;
 } else {
   setTimeout(() => {
+    console.log("Таймер завершён: время вышло!");
+
     notifier.notify(
       {
-        title: "Тест",
-        message: "Уведомление работает",
-        sound: "Glass",
+        title: "Таймер",
+        message: `Время вышло! Интервал: ${args.join(" ")}`,
+        sound: true,
       },
-      (error, response, metadata) => {
-        console.log({ error, response, metadata });
+      (error) => {
+        if (error) {
+          console.error(
+            "Не удалось показать уведомление:",
+            error.message,
+          );
+        }
       },
     );
   }, totalMilliseconds);
